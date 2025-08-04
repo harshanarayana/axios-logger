@@ -64,13 +64,19 @@ class StringBuilder {
     }
 
     makeData(data: object) {
-        if (this.config.data && typeof this.config.data === 'function' && data && this.config.data(data)) {
-            const str = typeof data === `string` ? data : JSON.stringify(data);
-            this.printQueue.push(str);
-        } else if(this.config.data && data) {
-            const str = typeof data === `string` ? data : JSON.stringify(data);
-            this.printQueue.push(str);
+        if (!data || !this.config.data) {
+            return this;
         }
+
+        if (this.config.data && typeof this.config.data === 'function') {
+            if (data && this.config.data(data)) {
+                const str = typeof data === 'string' ? data : JSON.stringify(data);
+                this.printQueue.push(str);
+            }
+            return this;
+        }
+        const str = typeof data === `string` ? data : JSON.stringify(data);
+        this.printQueue.push(str);
         return this;
     }
 
