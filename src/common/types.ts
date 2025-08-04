@@ -1,3 +1,5 @@
+export type dynamicDataCheckCallback = (data: any) => boolean;
+
 export interface CommonConfig {
     prefixText?: string | boolean,
     dateFormat?: string | boolean,
@@ -7,7 +9,7 @@ export interface CommonConfig {
 }
 
 export interface GlobalLogConfig extends CommonConfig {
-    data?: boolean,
+    data?: boolean | dynamicDataCheckCallback,
     method?: boolean,
     url?: boolean,
     status?: boolean,

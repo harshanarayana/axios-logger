@@ -64,7 +64,10 @@ class StringBuilder {
     }
 
     makeData(data: object) {
-        if(this.config.data && data) {
+        if (this.config.data && typeof this.config.data === 'function' && data && this.config.data(data)) {
+            const str = typeof data === `string` ? data : JSON.stringify(data);
+            this.printQueue.push(str);
+        } else if(this.config.data && data) {
             const str = typeof data === `string` ? data : JSON.stringify(data);
             this.printQueue.push(str);
         }
@@ -95,14 +98,14 @@ class StringBuilder {
 
         if (!isRelativeUrl) {
             return baseURL;
-        }        
+        }
 
         const isRelativeUrlHaveHost = relativeURL && checkURLContainHost(relativeURL) ? true : false;
 
         if (isRelativeUrlHaveHost) {
             return relativeURL as string;
-        } 
-            
+        }
+
         const firstURL = (baseURL !== '') ? new URL(baseURL) : null;
         const isBaseUrlHaveSubpath = firstURL && firstURL.pathname !== '' ? true : false;
 
